@@ -4,7 +4,8 @@
 Vagrant.configure("2") do |config|
 
     config.vm.box = "ubuntu/xenial64"
-    config.vm.provision "shell", path: "provision/node.sh && provision/ansible.sh", privileged: true
+    config.vm.provision "shell", path: "provision/node.sh", privileged: true
+    config.vm.provision "shell", path: "provision/ansible.sh", privileged: true
 
     # Managers
     (1..3).each do |number|
