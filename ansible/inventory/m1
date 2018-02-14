@@ -1,0 +1,22 @@
+m1=127.0.0.1
+#m1=192.168.99.201
+#w1=192.168.99.211
+
+[manager]
+m1
+
+#[worker]
+#w1
+
+# host base in all geos
+[nodes:children]
+manager
+#worker
+
+[manager:vars]
+ansible_ssh_user=vagrant
+ansible_ssh_pass=vagrant
+
+#[worker:vars]
+#ansible_ssh_user=vagrant
+#ansible_ssh_pass=vagrant
