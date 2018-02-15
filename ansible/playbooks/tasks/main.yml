@@ -1,5 +1,4 @@
 ---
-# tasks file for ACS
 - name: Leaving Docker Swarm
   shell: docker swarm leave --force
 
