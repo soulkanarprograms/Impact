@@ -1,35 +1,54 @@
-version: '3.1'
+version: '3.2'
 
 services:
-   mysql:
-     image: mysql
-     environment: 
-       MYSQL_USER: impact
-       MYSQL_DATABASE: impact
-       MYSQL_ROOT_PASSWORD: root
-     deploy:
-       placement:
-         constraints:
-           - node.role==manager
-     ports:
-       - "3306:3306"
-    # network:
-    #   - backend
+  mysql:
+    image: mysql
+    restart: always
+    environment: 
+      MYSQL_USER: impact
+      MYSQL_PASSWORD: impact
+      MYSQL_DATABASE: impact
+      MYSQL_ROOT_PASSWORD: root
+      DATABASE_PORT: 3306
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - backend
+
   web:
     image: nginx
     volumes:
       - /vagrant/services/nginx:/etc/nginx/conf.d/mysite.template
     ports:
       - "8080:80"
-    # networks:
-    #   - backend
+    networks:
+      - backend
     environment:
      - NGINX_HOST=localhost
      - NGINX_PORT=80
-    #command: /bin/bash -c "envsubst < /etc/nginx/conf.d/mysite.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+    #command: /bin/bash -c "envsubst < /etc/nginx/conf.d/mysite.template > /etc/nginx/conf.d/default.conf"
 
-#networks:
-#  - backend
-#volumes:
-#  - backend-data
+  api:
+    image: hellojava
+    volumes:
+      - /tmp
+    ports:
+      - "7777:8080"
+    networks:
+      - backend
+    depends_on:
+      - mysql  
+
+networks:
+  backend:
+
+volumes:
+  mysql-data:
+#  backend-data:
 #  - frontend-data
