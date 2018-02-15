@@ -24,8 +24,8 @@
     state: present
     tag: latest     
 
-#- name: Build Docker Container for Java Hello World
-#  shell: docker build /vagrant/services/springboot/. --tag hellojava:1.0 hellojava
+- name: Build Docker Container for Java Hello World
+  shell: "cd /vagrant/services/spring/ && docker build . --tag hellojava:1.0 --tag hellojava"
 
 #- name: Copy VueJS Files to target directory
 #  shell: docker build /vagrant/services/springboot/complete/. --tag hellojava:1.0 hellojava  
