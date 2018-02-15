@@ -27,16 +27,11 @@
 - name: Build Docker Container for Java Hello World
   shell: "cd /vagrant/services/spring/ && docker build . --tag hellojava:1.0 --tag hellojava"
 
-#- name: Copy VueJS Files to target directory
-#  shell: docker build /vagrant/services/springboot/complete/. --tag hellojava:1.0 hellojava  
-
-# - name: Copiar o arquivo modoDesenvTrue.sql
-#   template:
-#     src: modoDesenvFalse.sql.j2
-#     dest: "/public/modoDesenvTrue.sql"
-#     owner: oracle
-#     group: oracle
-#     mode: 0777  
+# - name: Copy VueJS Files to target directory
+#   command: cp -r /vagrant/services/nginx/site/dist/{{ item }} /usr/share/nginx/html
+#   with_items:
+#    - "index.html"
+#    - "static/"
 
 - name: Deploy Docker Swarm
   shell: docker stack deploy --compose-file /vagrant/docker-compose.yml impact

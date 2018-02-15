@@ -25,6 +25,7 @@ services:
     image: nginx
     volumes:
       - /vagrant/services/nginx:/etc/nginx/conf.d/mysite.template
+      - /vagrant/services/nginx/site/dist:/usr/share/nginx/html
     ports:
       - "8080:80"
     networks:
