@@ -1,9 +1,11 @@
 ---
 - name: Leaving Docker Swarm
   shell: docker swarm leave --force
+  ignore_errors: yes
 
 - name: Start Docker Swarm
   shell: docker swarm init --advertise-addr 192.168.99.201
+  ignore_errors: yes
 
 - name: Pull Nginx Image
   docker_image:
@@ -19,9 +21,16 @@
 
 - name: Pull Java 8 Image
   docker_image:
-    name: java:8
+    #name: java:8
+    name: openjdk:8-jdk
     state: present
-    tag: latest     
+    tag: latest
+
+- name: Pull Jenkins Image
+  docker_image:
+    name: jenkins
+    state: present
+    tag: 2.60.3  
 
 - name: Build Docker Container for Java Hello World
   shell: "cd /vagrant/services/spring/ && docker build . --tag hellojava:1.0 --tag hellojava"
@@ -34,3 +43,7 @@
 
 - name: Deploy Docker Swarm
   shell: docker stack deploy --compose-file /vagrant/docker-compose.yml impact
+
+- name: Set Jenkins Password
+  shell: ID=$(docker container ls -q -f "label=com.docker.swarm.service.name=jenkins") && docker container exec -it $ID cat /var/jenkins_home/secrets/initialAdminPassword
+
